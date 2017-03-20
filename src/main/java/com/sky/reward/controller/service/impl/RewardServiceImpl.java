@@ -1,6 +1,7 @@
 package com.sky.reward.controller.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +18,11 @@ import com.sky.reward.controller.service.RewardService;
 public class RewardServiceImpl implements RewardService {
 
 	@SuppressWarnings("serial")
-	public static final Map<String, String> rewardsMap = new HashMap<String, String>() {
+	public static final Map<String, List<String>> rewardsMap = new HashMap<String, List<String>>() {
 		{
-			put("SPORTS", "CHAMPIONS_LEAGUE_FINAL_TICKET");
-			put("MUSIC", "KARAOKE_PRO_MICROPHONE");
-			put("MOVIES", "PIRATES_OF_THE_CARIBBEAN_COLLECTION");
+			put("SPORTS", Arrays.asList("CHAMPIONS_LEAGUE_FINAL_TICKET"));
+			put("MUSIC", Arrays.asList("KARAOKE_PRO_MICROPHONE"));
+			put("MOVIES", Arrays.asList("PIRATES_OF_THE_CARIBBEAN_COLLECTION"));
 		}
 	};
 
@@ -31,7 +32,7 @@ public class RewardServiceImpl implements RewardService {
 	public List<String> fetchRewards(String accountNumber, List<String> subscriptions) throws TechnicalFailureException, InvalidAccountNumberException {
 
 		String eligibility = eligibilityService.checkRewardEligibility(accountNumber);
-		List<String> rewards = new ArrayList<>();
+		List<String> rewards = new ArrayList<String>();
 
 		if (eligibility.equals("CUSTOMER_ELIGIBLE")) {
 			rewards = getRewards(subscriptions);
@@ -45,7 +46,7 @@ public class RewardServiceImpl implements RewardService {
 
 		for (String subscription : subscriptions) {
 			if(rewardsMap.containsKey(subscription)){
-				rewards.add(rewardsMap.get(subscription));
+				rewards.addAll(rewardsMap.get(subscription));
 			}
 		}
 

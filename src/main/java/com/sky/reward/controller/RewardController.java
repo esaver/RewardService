@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sky.reward.controller.exceptions.ErrorResponse;
@@ -24,11 +24,16 @@ public class RewardController {
 	@Autowired
 	private RewardService rewardService;
 
-	@RequestMapping(value = "/rewards/{accountNumber}", method = RequestMethod.POST)
-	public ResponseEntity<List<String>> fetchRewards(@PathVariable final String accountNumber,
-													 @RequestBody final List<String> channels) throws InvalidAccountNumberException {
+	@RequestMapping(value = "/rewards/{accountNumber}", method = RequestMethod.GET)
+	public ResponseEntity<List<String>> fetchRewards(@PathVariable("accountNumber") final String accountNumber, 
+													 @RequestParam("channels") final List<String> channels) throws InvalidAccountNumberException {
 
 		List<String> rewards = new ArrayList<String>();
+		
+		if(channels == null || channels.isEmpty()){
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}
+		
 		try {
 			rewards = rewardService.fetchRewards(accountNumber, channels);
 
@@ -39,7 +44,7 @@ public class RewardController {
 		} catch (InvalidAccountNumberException e) {
 			throw new InvalidAccountNumberException("The supplied account number is invalid.");
 		} catch (TechnicalFailureException e) {
-			return new ResponseEntity<List<String>>(rewards, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<String>>(rewards, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
 		return new ResponseEntity<List<String>>(rewards, HttpStatus.OK);

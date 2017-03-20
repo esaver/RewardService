@@ -29,5 +29,4 @@ public class EligibilityServiceImpl implements EligibilityService {
 		
 		return eligiliability;
 	}
-
 }
