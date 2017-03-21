@@ -1,8 +1,14 @@
-package com.sky.reward.controller.service.impl;
+package com.sky.reward.service.impl;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +16,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.runners.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.*;
-
-import com.sky.reward.controller.exceptions.InvalidAccountNumberException;
-import com.sky.reward.controller.exceptions.TechnicalFailureException;
-import com.sky.reward.controller.service.EligibilityService;
-import com.sky.reward.controller.service.RewardService;
+import com.sky.reward.exception.InvalidAccountNumberException;
+import com.sky.reward.exception.TechnicalFailureException;
+import com.sky.reward.service.EligibilityService;
+import com.sky.reward.service.RewardService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RewardServiceImplTest {
@@ -39,7 +43,7 @@ public class RewardServiceImplTest {
 	}
 
 	@Test
-	public void whenCustomerIsEligible_AndHisSubscriptions_HasRewardsAssociatedWithThem_ReturnRewards() throws Exception {
+	public void whenCustomer_IsEligible_AndHisSubscriptions_HasRewardsAssociatedWithThem_ReturnRewards() throws Exception {
 		
 		when(eligibilityServiceMock.checkRewardEligibility(accountNumber)).thenReturn("CUSTOMER_ELIGIBLE");
 
@@ -55,7 +59,7 @@ public class RewardServiceImplTest {
 	}
 
 	@Test
-	public void whenCustomerIsEligible_AndHisSubscriptions_HasNoRewardsAssociatedWithThem_ReturnNoRewards() throws Exception {
+	public void whenCustomer_IsEligible_AndHisSubscriptions_HasNoRewardsAssociatedWithThem_ReturnNoRewards() throws Exception {
 
 		when(eligibilityServiceMock.checkRewardEligibility(accountNumber)).thenReturn("CUSTOMER_ELIGIBLE");
 
@@ -70,7 +74,7 @@ public class RewardServiceImplTest {
 	}
 
 	@Test
-	public void whenCustomerIsNotEligible_ReturnNoRewards() throws Exception {
+	public void whenCustomer_IsNotEligible_ReturnNoRewards() throws Exception {
 
 		when(eligibilityServiceMock.checkRewardEligibility(accountNumber)).thenReturn("CUSTOMER_INELIGIBLE");
 
@@ -105,7 +109,7 @@ public class RewardServiceImplTest {
 	}
 	
 	@Test(expected = TechnicalFailureException.class)
-	public final void whenMoreThan2NumbersAreUsedExceptionIsThrown() throws Exception {
+	public final void whenEligibilityServiceIsDown_ThrowTechnicalFailureException() throws Exception {
 		
 		when(eligibilityServiceMock.checkRewardEligibility(accountNumber)).thenThrow(new TechnicalFailureException("Service technical failure"));
 		rewardService.fetchRewards(accountNumber, subscriptionsWithRewards);

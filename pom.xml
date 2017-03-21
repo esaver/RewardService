@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>RewardService</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Reward Service Implementation</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

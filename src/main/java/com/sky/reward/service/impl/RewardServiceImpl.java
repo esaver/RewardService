@@ -1,4 +1,4 @@
-package com.sky.reward.controller.service.impl;
+package com.sky.reward.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,10 +9,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sky.reward.controller.exceptions.InvalidAccountNumberException;
-import com.sky.reward.controller.exceptions.TechnicalFailureException;
-import com.sky.reward.controller.service.EligibilityService;
-import com.sky.reward.controller.service.RewardService;
+import com.sky.reward.exception.InvalidAccountNumberException;
+import com.sky.reward.exception.TechnicalFailureException;
+import com.sky.reward.service.EligibilityService;
+import com.sky.reward.service.RewardService;
 
 @Service
 public class RewardServiceImpl implements RewardService {

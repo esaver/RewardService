@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sky.reward.controller.exceptions.ErrorResponse;
-import com.sky.reward.controller.exceptions.InvalidAccountNumberException;
-import com.sky.reward.controller.exceptions.TechnicalFailureException;
-import com.sky.reward.controller.service.RewardService;
+import com.sky.reward.exception.ErrorResponse;
+import com.sky.reward.exception.InvalidAccountNumberException;
+import com.sky.reward.exception.TechnicalFailureException;
+import com.sky.reward.service.RewardService;
 
 @RestController
 public class RewardController {
@@ -28,11 +28,11 @@ public class RewardController {
 	public ResponseEntity<List<String>> fetchRewards(@PathVariable("accountNumber") final String accountNumber, 
 													 @RequestParam("channels") final List<String> channels) throws InvalidAccountNumberException {
 
-		List<String> rewards = new ArrayList<String>();
-		
 		if(channels == null || channels.isEmpty()){
 			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
 		}
+
+		List<String> rewards = new ArrayList<String>();
 		
 		try {
 			rewards = rewardService.fetchRewards(accountNumber, channels);

@@ -1,11 +1,15 @@
-package com.sky.reward.controller.service.impl;
+package com.sky.reward.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.sky.reward.controller.exceptions.InvalidAccountNumberException;
-import com.sky.reward.controller.exceptions.TechnicalFailureException;
-import com.sky.reward.controller.service.EligibilityService;
-
+import com.sky.reward.exception.InvalidAccountNumberException;
+import com.sky.reward.exception.TechnicalFailureException;
+import com.sky.reward.service.EligibilityService;
+/**
+ * Dummy implementation of eligibility service;
+ * @author user
+ *
+ */
 @Service
 public class EligibilityServiceImpl implements EligibilityService {
 
@@ -13,7 +17,7 @@ public class EligibilityServiceImpl implements EligibilityService {
 		
 		String eligiliability = "CUSTOMER_INELIGIBLE";
 		
-		//Mock accounts for EligibilityService
+		//Mock test accounts for EligibilityService
 		switch (accountNumber) {
 		case "1111":
 			eligiliability = "CUSTOMER_ELIGIBLE";

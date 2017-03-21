@@ -33,9 +33,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.sky.reward.RewardServiceApplication;
-import com.sky.reward.controller.exceptions.InvalidAccountNumberException;
-import com.sky.reward.controller.exceptions.TechnicalFailureException;
-import com.sky.reward.controller.service.RewardService;
+import com.sky.reward.exception.InvalidAccountNumberException;
+import com.sky.reward.exception.TechnicalFailureException;
+import com.sky.reward.service.RewardService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RewardServiceApplication.class)
@@ -152,7 +152,7 @@ public class RewardControllerTest {
     }
     
     @Test
-    public void returnNoRewadrsAndNotifyClientOfInvalidAccountNumber_ForInvalidCustomerAccountNumber() throws Exception {
+    public void returnNoRewadrs_AndNotifyClientOfInvalidAccountNumber_ForInvalidCustomerAccountNumber() throws Exception {
     	//given
     	//when
     	when(rewardServiceMock.fetchRewards(Matchers.any(String.class), Matchers.anyListOf(String.class))).thenThrow((new InvalidAccountNumberException("The supplied account number is invalid.")));
@@ -170,7 +170,7 @@ public class RewardControllerTest {
     }
     
     @Test
-    public void throwTechnicalFailureException_ForAnyTechnicalFailure() throws Exception {
+    public void throwTechnicalFailureException_WhenEligibilityServiceIsDown() throws Exception {
     	//given
     	//when
     	when(rewardServiceMock.fetchRewards(Matchers.any(String.class), Matchers.anyListOf(String.class))).thenThrow(TechnicalFailureException.class);

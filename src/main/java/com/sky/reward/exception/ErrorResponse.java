@@ -1,4 +1,4 @@
-package com.sky.reward.controller.exceptions;
+package com.sky.reward.exception;
 
 public class ErrorResponse {
 	private int errorCode;
